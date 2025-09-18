@@ -16,7 +16,7 @@ const { width, height } = Dimensions.get("window");
 
 export default function Register() {
   const [modalVisible, setModalVisible] = useState(false);
-  const [activeTab, setActiveTab] = useState<"register" | "login">("register"); // 👈 keeps track of the active tab
+  const [activeTab, setActiveTab] = useState<"register" | "login">("register");
 
   // form fields
   const [name, setName] = useState("");
@@ -58,7 +58,15 @@ export default function Register() {
               setModalVisible(true);
             }}
           >
-            <Text style={{ color: "#32B768", fontWeight: "bold", textAlign: 'center' }}>Login</Text>
+            <Text
+              style={{
+                color: "#32B768",
+                fontWeight: "bold",
+                textAlign: "center",
+              }}
+            >
+              Login
+            </Text>
           </TouchableOpacity>
         </View>
 
@@ -94,10 +102,7 @@ export default function Register() {
           <View style={styles.tabContainer}>
             <TouchableOpacity
               onPress={() => setActiveTab("register")}
-              style={[
-                styles.tab,
-                activeTab === "register" && styles.activeTab,
-              ]}
+              style={[styles.tab, activeTab === "register" && styles.activeTab]}
             >
               <Text
                 style={[
