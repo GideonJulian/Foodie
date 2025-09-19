@@ -4,7 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 export default function Index() {
   return (
   <SafeAreaView>
-    <Text>Home page</Text>
+    <Text>Profile page</Text>
   </SafeAreaView>
   );
 }

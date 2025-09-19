@@ -1,3 +1,4 @@
+import { useRouter } from "expo-router";
 import { useState } from "react";
 import {
   Text,
@@ -17,12 +18,18 @@ const { width, height } = Dimensions.get("window");
 export default function Register() {
   const [modalVisible, setModalVisible] = useState(false);
   const [activeTab, setActiveTab] = useState<"register" | "login">("register");
-
+const router = useRouter()
   // form fields
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const isFormEmpty =
+    activeTab === "register"
+      ? !name || !email || !password // for register tab
+      : !email || !password; // for login tab
+const handleRegister = () => {
+  router.replace('/home')
+}
   return (
     <SafeAreaView style={styles.safe}>
       <View style={styles.slide}>
@@ -174,11 +181,31 @@ export default function Register() {
             </View>
 
             {/* Submit button */}
-            <TouchableOpacity style={styles.button}>
-              <Text style={styles.buttonText}>
-                {activeTab === "register" ? "Register" : "Login"}
-              </Text>
-            </TouchableOpacity>
+            <View>
+              <TouchableOpacity
+                style={[styles.button, isFormEmpty && styles.buttonDisabled]}
+                disabled={isFormEmpty}
+                onPress={handleRegister}
+              >
+                <Text
+                  style={[
+                    styles.buttonText,
+                    isFormEmpty && styles.disabledbuttonText,
+                  ]}
+                >
+                  {activeTab === "register" ? "Register" : "Login"}
+                </Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity style={styles.google}>
+                <Image source={require("../assets/icons/ic_google.png")} />
+                <Text style={styles.googleText}>
+                  {activeTab === "register"
+                    ? "Sign up with Google"
+                    : "Sign in with Google"}
+                </Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
       </Modal>
@@ -289,8 +316,30 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 20,
   },
+  buttonDisabled: {
+    backgroundColor: "#F4F4F4",
+  },
+  disabledbuttonText: {
+    color: "#9CA3AF",
+  },
   buttonText: {
     color: "white",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+
+  google: {
+    backgroundColor: "#F4F4F4",
+    paddingVertical: 15,
+    borderRadius: 12,
+    alignItems: "center",
+    marginTop: 20,
+    flexDirection: "row", // icon + text inline
+    justifyContent: "center",
+    gap: 10, // space between icon and text (20 looked too wide)
+  },
+  googleText: {
+    color: "#222222",
     fontSize: 16,
     fontWeight: "bold",
   },

@@ -14,7 +14,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const { width, height } = Dimensions.get("window");
-
+import Feather from "@expo/vector-icons/Feather";
 type Slide = { id: string; title: string; image: any; description: string };
 
 const slides: Slide[] = [
@@ -41,7 +41,7 @@ const slides: Slide[] = [
 ];
 
 export default function OnboardingScreen() {
-  const router = useRouter()
+  const router = useRouter();
   const [currentIndex, setCurrentIndex] = useState(0);
   const flatListRef = useRef<FlatList<Slide>>(null);
 
@@ -49,12 +49,11 @@ export default function OnboardingScreen() {
     if (currentIndex < slides.length - 1) {
       const nextIndex = currentIndex + 1;
       flatListRef.current?.scrollToIndex({ index: nextIndex, animated: true });
-      setCurrentIndex(nextIndex)
+      setCurrentIndex(nextIndex);
     } else {
-      router.replace("/register"); 
+      router.replace("/register");
     }
   };
-
 
   const handleSkip = () => {
     router.replace("/register");
@@ -122,8 +121,17 @@ export default function OnboardingScreen() {
 
         {/* Next / Done */}
         <TouchableOpacity style={styles.nextButton} onPress={handleNext}>
-          <Text style={styles.nextText}>
-            {currentIndex === slides.length - 1 ? "Done" : "Next"}
+          <Text
+            style={[
+              styles.nextText,
+              currentIndex === slides.length - 1 && styles.done,
+            ]}
+          >
+            {currentIndex === slides.length - 1 ? (
+              "Done"
+            ) : (
+              <Feather name="arrow-right" size={24} color="#01974f" />
+            )}
           </Text>
         </TouchableOpacity>
       </View>
@@ -145,7 +153,12 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
     marginTop: 90,
   },
-  title: { fontSize: 22, fontWeight: "700", textAlign: "center", marginBottom: 8 },
+  title: {
+    fontSize: 22,
+    fontWeight: "700",
+    textAlign: "center",
+    marginBottom: 8,
+  },
   description: { fontSize: 15, color: "#666", textAlign: "center" },
 
   footer: {
@@ -154,6 +167,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 20,
     paddingVertical: 15,
+    marginBottom: 20,
   },
   dotsContainer: { flexDirection: "row", alignItems: "center" },
   dot: {
@@ -163,14 +177,25 @@ const styles = StyleSheet.create({
     backgroundColor: "#ccc",
     marginHorizontal: 5,
   },
-  activeDot: { backgroundColor: "#01974f", width: 12, height: 12, borderRadius: 6 },
+  activeDot: {
+    backgroundColor: "#01974f",
+    width: 12,
+    height: 12,
+    borderRadius: 6,
+  },
 
   skipText: { color: "#01974f", fontSize: 16 },
   nextButton: {
-    backgroundColor: "#01974f",
+    // backgroundColor: "#01974f",
     paddingHorizontal: 18,
     paddingVertical: 10,
     borderRadius: 20,
   },
   nextText: { color: "#fff", fontWeight: "700" },
+  done: {
+     backgroundColor: "#01974f",
+    paddingHorizontal: 18,
+    paddingVertical: 10,
+    borderRadius: 20,
+  }
 });
