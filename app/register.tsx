@@ -10,6 +10,9 @@ import {
   Modal,
   Pressable,
   TextInput,
+  KeyboardAvoidingView,
+  ScrollView,
+  Platform,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -18,18 +21,21 @@ const { width, height } = Dimensions.get("window");
 export default function Register() {
   const [modalVisible, setModalVisible] = useState(false);
   const [activeTab, setActiveTab] = useState<"register" | "login">("register");
-const router = useRouter()
+  const router = useRouter();
+
   // form fields
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const isFormEmpty =
     activeTab === "register"
-      ? !name || !email || !password // for register tab
-      : !email || !password; // for login tab
-const handleRegister = () => {
-  router.replace('/home')
-}
+      ? !name || !email || !password
+      : !email || !password;
+
+  const handleRegister = () => {
+    router.replace("/home");
+  };
+
   return (
     <SafeAreaView style={styles.safe}>
       <View style={styles.slide}>
@@ -136,11 +142,17 @@ const handleRegister = () => {
             </TouchableOpacity>
           </View>
 
-          {/* Form */}
-          <View style={styles.form}>
-            {activeTab === "register" && (
-              <>
-                {/* Full Name */}
+          {/* ✅ Form wrapped in KeyboardAvoidingView + ScrollView */}
+          <KeyboardAvoidingView
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+            style={{ flex: 1 }}
+          >
+            <ScrollView
+              contentContainerStyle={styles.form}
+              keyboardShouldPersistTaps="handled"
+              showsVerticalScrollIndicator={false}
+            >
+              {activeTab === "register" && (
                 <View style={styles.inputGroup}>
                   <Text style={styles.label}>Full Name</Text>
                   <TextInput
@@ -151,37 +163,33 @@ const handleRegister = () => {
                     placeholderTextColor="#999"
                   />
                 </View>
-              </>
-            )}
+              )}
 
-            {/* Email */}
-            <View style={styles.inputGroup}>
-              <Text style={styles.label}>Email</Text>
-              <TextInput
-                style={styles.input}
-                placeholder="Eg. namaemail@emailkamu.com"
-                keyboardType="email-address"
-                value={email}
-                onChangeText={setEmail}
-                placeholderTextColor="#999"
-              />
-            </View>
+              <View style={styles.inputGroup}>
+                <Text style={styles.label}>Email</Text>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Eg. namaemail@emailkamu.com"
+                  keyboardType="email-address"
+                  value={email}
+                  onChangeText={setEmail}
+                  placeholderTextColor="#999"
+                />
+              </View>
 
-            {/* Password */}
-            <View style={styles.inputGroup}>
-              <Text style={styles.label}>Password</Text>
-              <TextInput
-                style={styles.input}
-                placeholder="Enter your password"
-                secureTextEntry
-                value={password}
-                onChangeText={setPassword}
-                placeholderTextColor="#999"
-              />
-            </View>
+              <View style={styles.inputGroup}>
+                <Text style={styles.label}>Password</Text>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Enter your password"
+                  secureTextEntry
+                  value={password}
+                  onChangeText={setPassword}
+                  placeholderTextColor="#999"
+                />
+              </View>
 
-            {/* Submit button */}
-            <View>
+              {/* Submit button */}
               <TouchableOpacity
                 style={[styles.button, isFormEmpty && styles.buttonDisabled]}
                 disabled={isFormEmpty}
@@ -205,8 +213,8 @@ const handleRegister = () => {
                     : "Sign in with Google"}
                 </Text>
               </TouchableOpacity>
-            </View>
-          </View>
+            </ScrollView>
+          </KeyboardAvoidingView>
         </View>
       </Modal>
     </SafeAreaView>
@@ -290,6 +298,7 @@ const styles = StyleSheet.create({
   // Form
   form: {
     marginTop: 10,
+    paddingBottom: 40, // extra space so last input isn't hidden
   },
   inputGroup: {
     marginBottom: 15,
@@ -334,9 +343,9 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     alignItems: "center",
     marginTop: 20,
-    flexDirection: "row", // icon + text inline
+    flexDirection: "row",
     justifyContent: "center",
-    gap: 10, // space between icon and text (20 looked too wide)
+    gap: 10,
   },
   googleText: {
     color: "#222222",

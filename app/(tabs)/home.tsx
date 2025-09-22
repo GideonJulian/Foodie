@@ -1,14 +1,21 @@
-import { Text, View } from "react-native";
+import PromoCarousel from "@/components/PromoCarousel";
+import { ScrollView, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import TopNav from "../../components/TopNav";
+import NewArrival from "@/components/NewArrival";
 export default function Index() {
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{flex: 1, }}>
       <View style={{ padding: 20 }}>
-        <View style={{ marginBottom: 10 }}>
+        <View >
           <TopNav />
         </View>
-        <Text>Home page</Text>
+        <View>
+          <PromoCarousel />
+        </View>
+        <View>
+          <NewArrival />
+        </View>
       </View>
     </SafeAreaView>
   );

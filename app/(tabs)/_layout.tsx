@@ -13,7 +13,7 @@ export default function TabsLayout() {
           borderTopLeftRadius: 30,
           borderTopRightRadius: 30,
           borderTopWidth: 0,
-          // iOS shadow
+       
           shadowColor: "#000",
           shadowOffset: { width: 0, height: 6 },
           shadowOpacity: 0.4,
