@@ -88,7 +88,7 @@ export default function PromoCarousel() {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop:20,
+    marginTop:10,
   },
   carousel: {
     width: width,
